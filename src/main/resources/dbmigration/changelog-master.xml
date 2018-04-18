@@ -1,0 +1,85 @@
+<!--
+  #%L
+  eurekaclinical-phenotype-service
+  %%
+  Copyright (C) 2018 Emory University
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                         http://www.liquibase.org/xml/ns/dbchangelog
+                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd" logicalFilePath="changelog-master.xml">
+
+    <property name="eurekaclinical.superuser.username" value="superuser"/>
+
+    <changeSet author="akalsan" id="1">
+        <createTable tableName="USERS">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="USERS_PK"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="USERS_USERNAME_UNIQ"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="USER_SEQ"/>
+        <createTable tableName="ROLES">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ROLES_PK"/>
+            </column>
+            <column name="DEFAULTROLE" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ROLES_NAME_UNIQ"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="ROLE_SEQ"/>
+        <createTable tableName="USER_ROLE">
+            <column name="USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="USER_ROLE" constraintName="USER_ROLE_ROLE_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="ROLES"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ROLE" constraintName="USER_ROLE_USER_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS"/>
+    </changeSet>
+    <changeSet author="akalsan" id="2">
+        <insert tableName="ROLES">
+            <column name="ID" valueSequenceNext="ROLE_SEQ"/>
+            <column name="DEFAULTROLE" valueBoolean="true"/>
+            <column name="NAME" value="admin"/>
+        </insert>
+        <rollback>
+            <delete tableName="ROLES">
+                <where>ID=1</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet author="akalsan" id="3">
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USER_SEQ"/>
+            <column name="USERNAME" value="${eurekaclinical.superuser.username}"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="USER_ID" valueComputed="(SELECT ID FROM USERS WHERE USERNAME='${eurekaclinical.superuser.username}')"/>
+            <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLES WHERE NAME='admin')"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
