@@ -22,32 +22,35 @@ package org.eurekaclinical.phenotype.service.resource;
 
 import com.google.inject.persist.Transactional;
 import org.eurekaclinical.common.resource.AbstractRoleResource;
-import org.eurekaclinical.phenotype.service.entity.RoleEntity;
-import org.eurekaclinical.standardapis.dao.RoleDao;
+import org.eurekaclinical.phenotype.service.dao.RoleDao;
 import org.eurekaclinical.common.comm.Role;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import org.eurekaclinical.phenotype.service.entity.AuthorizedRoleEntity;
 
-/**
- * Created by akalsan on 10/5/16.
- */
 @Path("/protected/roles")
 @Transactional
-public class RoleResource extends AbstractRoleResource<RoleEntity, Role> {
+public class RoleResource extends AbstractRoleResource<AuthorizedRoleEntity, Role> {
+    
+	/**
+	 * Create a RoleResource object with the given {@link RoleDao}
+	 *
+	 * @param inRoleDao The RoleDao object used to work with role objects in the
+	 *            data store.
+	 */
+        @Inject
+        public RoleResource(RoleDao inRoleDao) {
+            super(inRoleDao);
+        }
 
-    @Inject
-    public RoleResource(RoleDao<RoleEntity> inRoleDao) {
-        super(inRoleDao);
-    }
-
-    @Override
-    protected Role toComm(RoleEntity roleEntity, HttpServletRequest req) {
-        Role role = new Role();
-        role.setId(roleEntity.getId());
-        role.setName(roleEntity.getName());
-        return role;
-    }
+        @Override
+        protected Role toComm(AuthorizedRoleEntity roleEntity, HttpServletRequest req) {
+            Role role = new Role();
+            role.setId(roleEntity.getId());
+            role.setName(roleEntity.getName());
+            return role;
+        }
 
 }

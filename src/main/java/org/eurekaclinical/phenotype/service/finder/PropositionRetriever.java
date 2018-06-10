@@ -34,8 +34,9 @@ public interface PropositionRetriever<K> {
 	 * 
 	 * @param sourceConfigId the source config id of interest.
 	 * @param inKey the proposition id of interest.
-	 * @return the proposition definition of interest, or <code>null</code> if 
-	 * not found.
+	 * @return the proposition definition of interest, or <code>null</code> if not found.
+	 * 
+         * @throws org.eurekaclinical.phenotype.service.finder.PropositionFindException if error finding proposition
 	 */
 	PropositionDefinition retrieve (String sourceConfigId, K inKey)
 			throws PropositionFindException;

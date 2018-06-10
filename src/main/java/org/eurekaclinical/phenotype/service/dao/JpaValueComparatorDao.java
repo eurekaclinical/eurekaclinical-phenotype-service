@@ -19,31 +19,33 @@
  */
 package org.eurekaclinical.phenotype.service.dao;
 
-import javax.persistence.EntityManager;
-
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.eurekaclinical.phenotype.service.entity.AuthorizedRoleEntity;
+import org.eurekaclinical.phenotype.client.comm.ValueComparator_;
+import org.eurekaclinical.phenotype.client.comm.ValueComparator;
 
-import org.eurekaclinical.standardapis.dao.AbstractJpaRoleDao;
+import java.util.List;
 
-/**
- * A {@link RoleDao} implementation, backed by JPA entities and queries.
- *
- * @author hrathod
- *
- */
-public class JpaRoleDao extends AbstractJpaRoleDao<AuthorizedRoleEntity> implements RoleDao {
+import javax.persistence.EntityManager;
+import org.eurekaclinical.standardapis.dao.GenericDao;
 
-	/**
-	 * Create a new object with the given entity manager.
-	 *
-	 * @param inManagerProvider A provider for entity manager instances.
-	 */
+public class JpaValueComparatorDao extends GenericDao<ValueComparator, Long> implements
+        ValueComparatorDao {
+
 	@Inject
-	public JpaRoleDao(Provider<EntityManager> inManagerProvider) {
-		super(AuthorizedRoleEntity.class, inManagerProvider);
+	protected JpaValueComparatorDao(Provider<EntityManager> inManagerProvider) {
+		super(ValueComparator.class, inManagerProvider);
 	}
 
+	@Override
+	public ValueComparator getByName(String inName) {
+		return getUniqueByAttribute(ValueComparator_.name, inName);
+	}
+
+	@Override
+	public List<ValueComparator> getAllAsc() {
+		return getListAsc(ValueComparator_.rank);
+	}
+	
+	
 }

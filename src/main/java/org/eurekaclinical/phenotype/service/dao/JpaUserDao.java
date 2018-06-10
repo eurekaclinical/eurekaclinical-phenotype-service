@@ -41,16 +41,17 @@ package org.eurekaclinical.phenotype.service.dao;
  */
 
 import org.eurekaclinical.phenotype.service.entity.UserEntity;
-import org.eurekaclinical.standardapis.dao.AbstractJpaRoleDao;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
+import org.eurekaclinical.phenotype.service.entity.AuthorizedUserEntity;
+import org.eurekaclinical.standardapis.dao.AbstractJpaUserDao;
 
 /**
  * Created by akalsan on 10/4/16.
  */
-public class JpaUserDao extends org.eurekaclinical.standardapis.dao.AbstractJpaUserDao<UserEntity> {
+public class JpaUserDao extends AbstractJpaUserDao<AuthorizedUserEntity> implements AuthorizedUserDao {
 
     /**
      * Create an object with the give entity manager.
@@ -60,7 +61,7 @@ public class JpaUserDao extends org.eurekaclinical.standardapis.dao.AbstractJpaU
      */
     @Inject
     public JpaUserDao(final Provider<EntityManager> inEMProvider) {
-        super(UserEntity.class, inEMProvider);
+        super(AuthorizedUserEntity.class, inEMProvider);
     }
 
 }

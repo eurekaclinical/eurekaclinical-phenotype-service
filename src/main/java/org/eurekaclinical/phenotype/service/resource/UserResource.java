@@ -23,39 +23,50 @@ package org.eurekaclinical.phenotype.service.resource;
 import com.google.inject.persist.Transactional;
 import org.eurekaclinical.common.comm.User;
 import org.eurekaclinical.common.resource.AbstractUserResource;
-import org.eurekaclinical.phenotype.service.entity.RoleEntity;
+
+import org.eurekaclinical.phenotype.service.dao.RoleDao;
+import org.eurekaclinical.phenotype.service.dao.AuthorizedUserDao;
+import org.eurekaclinical.phenotype.service.entity.AuthorizedRoleEntity;
+import org.eurekaclinical.phenotype.service.entity.AuthorizedUserEntity;
 import org.eurekaclinical.phenotype.service.entity.UserEntity;
-import org.eurekaclinical.standardapis.dao.RoleDao;
-import org.eurekaclinical.standardapis.dao.UserDao;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-/**
- * Created by akalsan on 10/5/16.
- */
-@Path("/protected/users")
 @Transactional
-public class UserResource extends AbstractUserResource<User, UserEntity, RoleEntity> {
+@Path("/protected/users")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class UserResource extends AbstractUserResource<User, AuthorizedUserEntity, AuthorizedRoleEntity> {
 
-    private final RoleDao<RoleEntity> roleDao;
+	private final RoleDao roleDao;
+	
+	/**
+	 * Create a UserResource object with a User DAO and a Role DAO.
+	 *
+	 * @param inUserDao DAO used to access {@link UserEntity} related functionality.
+	 * @param inRoleDao
+	 */
 
     @Inject
-    public UserResource(UserDao<UserEntity> inUserDao, RoleDao<RoleEntity> inRoleDao) {
+    public UserResource(AuthorizedUserDao inUserDao, RoleDao inRoleDao) {
         super(inUserDao);
         this.roleDao = inRoleDao;
     }
 
     @Override
-    protected User toComm(UserEntity userEntity, HttpServletRequest req) {
+    protected User toComm(AuthorizedUserEntity userEntity, HttpServletRequest req) {
         User user = new User();
         user.setId(userEntity.getId());
         user.setUsername(userEntity.getUsername());
         List<Long> roles = new ArrayList<>();
-        for (RoleEntity roleEntity : userEntity.getRoles()) {
+        for (AuthorizedRoleEntity roleEntity : userEntity.getRoles()) {
             roles.add(roleEntity.getId());
         }
         user.setRoles(roles);
@@ -63,14 +74,14 @@ public class UserResource extends AbstractUserResource<User, UserEntity, RoleEnt
     }
 
     @Override
-    protected UserEntity toEntity(User user) {
-        List<RoleEntity> roleEntities = this.roleDao.getAll();
-        UserEntity userEntity = new UserEntity();
+    protected AuthorizedUserEntity toEntity(User user) {
+        List<AuthorizedRoleEntity> roleEntities = this.roleDao.getAll();
+        AuthorizedUserEntity userEntity = new AuthorizedUserEntity();
         userEntity.setId(user.getId());
         userEntity.setUsername(user.getUsername());
-        List<RoleEntity> userRoleEntities = new ArrayList<>();
+        List<AuthorizedRoleEntity> userRoleEntities = new ArrayList<>();
         for (Long roleId : user.getRoles()) {
-            for (RoleEntity roleEntity : roleEntities) {
+            for (AuthorizedRoleEntity roleEntity : roleEntities) {
                 if (roleEntity.getId().equals(roleId)) {
                     userRoleEntities.add(roleEntity);
                 }

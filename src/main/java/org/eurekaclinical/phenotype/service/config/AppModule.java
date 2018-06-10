@@ -22,11 +22,31 @@ package org.eurekaclinical.phenotype.service.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import org.eurekaclinical.phenotype.service.dao.AuthorizedUserDao;
+import org.eurekaclinical.phenotype.service.dao.FrequencyTypeDao;
+import org.eurekaclinical.phenotype.service.dao.JpaFrequencyTypeDao;
+import org.eurekaclinical.phenotype.service.dao.JpaPhenotypeEntityDao;
+import org.eurekaclinical.phenotype.service.dao.JpaRelationOperatorDao;
+import org.eurekaclinical.phenotype.service.dao.JpaThresholdsOperatorDao;
+import org.eurekaclinical.phenotype.service.dao.JpaTimeUnitDao;
+import org.eurekaclinical.phenotype.service.dao.JpaValueComparatorDao;
+import org.eurekaclinical.phenotype.service.dao.PhenotypeEntityDao;
+import org.eurekaclinical.phenotype.service.dao.RelationOperatorDao;
+import org.eurekaclinical.phenotype.service.dao.ThresholdsOperatorDao;
+import org.eurekaclinical.phenotype.service.dao.TimeUnitDao;
+import org.eurekaclinical.phenotype.service.dao.ValueComparatorDao;
+import org.eurekaclinical.phenotype.service.finder.PropositionFinder;
+import org.eurekaclinical.phenotype.service.finder.SystemPropositionFinder;
+
+
 import org.eurekaclinical.phenotype.service.dao.JpaRoleDao;
 import org.eurekaclinical.phenotype.service.dao.JpaUserDao;
-import org.eurekaclinical.phenotype.service.entity.RoleEntity;
-import org.eurekaclinical.phenotype.service.entity.UserEntity;
-import org.eurekaclinical.standardapis.dao.RoleDao;
+
+import org.eurekaclinical.standardapis.entity.RoleEntity;
+import org.eurekaclinical.standardapis.entity.UserEntity;
+import org.eurekaclinical.phenotype.service.dao.RoleDao;
 import org.eurekaclinical.standardapis.dao.UserDao;
 
 /**
@@ -34,10 +54,23 @@ import org.eurekaclinical.standardapis.dao.UserDao;
  */
 public class AppModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-        bind(new TypeLiteral<UserDao<UserEntity>>() {}).to(JpaUserDao.class);
-        bind(new TypeLiteral<UserDao<? extends org.eurekaclinical.standardapis.entity.UserEntity<? extends org.eurekaclinical.standardapis.entity.RoleEntity>>>() {}).to(JpaUserDao.class);
-        bind(new TypeLiteral<RoleDao<RoleEntity>>() {}).to(JpaRoleDao.class);
-    }
+        @Override
+        protected void configure() {
+                bind(new TypeLiteral<UserDao<? extends UserEntity<? extends RoleEntity>>>() {}).to(JpaUserDao.class);
+                bind(AuthorizedUserDao.class).to(JpaUserDao.class);
+                bind(RoleDao.class).to(JpaRoleDao.class);
+
+                bind(PhenotypeEntityDao.class).to(JpaPhenotypeEntityDao.class);
+                bind(TimeUnitDao.class).to(JpaTimeUnitDao.class);
+                bind(RelationOperatorDao.class).to(JpaRelationOperatorDao.class);
+                bind(ValueComparatorDao.class).to(JpaValueComparatorDao.class);
+                bind(ThresholdsOperatorDao.class).to(JpaThresholdsOperatorDao.class);
+                bind(FrequencyTypeDao.class).to(JpaFrequencyTypeDao.class);
+                bind(ThresholdsOperatorDao.class).to
+                                (JpaThresholdsOperatorDao.class);  
+                bind(new TypeLiteral<PropositionFinder<
+                                String>>(){}).to(SystemPropositionFinder.class);
+
+                bind(Context.class).to(InitialContext.class);                
+        }
 }

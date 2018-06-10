@@ -21,29 +21,38 @@ package org.eurekaclinical.phenotype.service.dao;
 
 import javax.persistence.EntityManager;
 
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.eurekaclinical.phenotype.service.entity.AuthorizedRoleEntity;
 
-import org.eurekaclinical.standardapis.dao.AbstractJpaRoleDao;
+import org.eurekaclinical.phenotype.client.comm.TimeUnit_;
+import org.eurekaclinical.phenotype.client.comm.TimeUnit;
+
+import java.util.List;
+import org.eurekaclinical.standardapis.dao.GenericDao;
 
 /**
- * A {@link RoleDao} implementation, backed by JPA entities and queries.
- *
  * @author hrathod
- *
  */
-public class JpaRoleDao extends AbstractJpaRoleDao<AuthorizedRoleEntity> implements RoleDao {
+public class JpaTimeUnitDao extends GenericDao<TimeUnit,
+	Long> implements TimeUnitDao {
 
-	/**
-	 * Create a new object with the given entity manager.
-	 *
-	 * @param inManagerProvider A provider for entity manager instances.
-	 */
 	@Inject
-	public JpaRoleDao(Provider<EntityManager> inManagerProvider) {
-		super(AuthorizedRoleEntity.class, inManagerProvider);
+	protected JpaTimeUnitDao(Provider<EntityManager> inManagerProvider) {
+		super(TimeUnit.class, inManagerProvider);
+	}
+	
+	@Override
+	public TimeUnit getByName(String inName) {
+		return getUniqueByAttribute(TimeUnit_.name, inName);
+	}
+	
+	@Override
+	public TimeUnit getDefault() {
+		return getUniqueByAttribute(TimeUnit_.isDefault, true);
 	}
 
+	@Override
+	public List<TimeUnit> getAllAsc() {
+		return getListAsc(TimeUnit_.rank);
+	}
 }

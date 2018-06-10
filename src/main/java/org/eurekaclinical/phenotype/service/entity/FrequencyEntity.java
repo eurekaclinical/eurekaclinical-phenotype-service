@@ -20,8 +20,8 @@
 package org.eurekaclinical.phenotype.service.entity;
 
  
-import org.eurekaclinical.phenotype.client.comm.TimeUnit;
 import org.eurekaclinical.phenotype.client.comm.FrequencyType;
+import org.eurekaclinical.phenotype.client.comm.TimeUnit;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -49,7 +49,7 @@
             </column>
         </createTable>
         <createSequence sequenceName="ROLE_SEQ"/>
-        <createTable tableName="USER_ROLE">
+        <createTable tableName="USERS_ROLES">
             <column name="USER_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -57,8 +57,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="USER_ROLE" constraintName="USER_ROLE_ROLE_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="ROLES"/>
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_ROLE" constraintName="USER_ROLE_USER_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS"/>
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="USERS_ROLES" constraintName="USERS_ROLES_ROLE_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="ROLES"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USERS_ROLES" constraintName="USERS_ROLES_USER_FK" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="USERS"/>
     </changeSet>
     <changeSet author="akalsan" id="2">
         <insert tableName="ROLES">
@@ -77,9 +77,603 @@
             <column name="ID" valueSequenceNext="USER_SEQ"/>
             <column name="USERNAME" value="${eurekaclinical.superuser.username}"/>
         </insert>
-        <insert tableName="USER_ROLE">
+        <insert tableName="USERS_ROLES">
             <column name="USER_ID" valueComputed="(SELECT ID FROM USERS WHERE USERNAME='${eurekaclinical.superuser.username}')"/>
             <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLES WHERE NAME='admin')"/>
         </insert>
     </changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-1">
+		<createTable tableName="CATEGORIES">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013388"/>
+			</column>
+		</createTable>
+	</changeSet>    
+	<changeSet author="arpost (generated)" id="1360440238345-2">
+		<createTable tableName="CATEGORY_MEMBERS">
+			<column name="CATEGORY_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MEMBER_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-3">
+		<createTable tableName="DATA_ELEMENTS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013396"/>
+			</column>
+			<column name="CATEGORYTYPE" type="INT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="CREATED" type="TIMESTAMP(6)"/>
+			<column name="DESCRIPTION" type="CLOB"/>
+			<column name="DISPLAYNAME" type="VARCHAR(255)"/>
+			<column name="INSYSTEM" type="BOOLEAN">
+				<constraints nullable="false"/>
+			</column>
+			<column name="KEY" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="LASTMODIFIED" type="TIMESTAMP(6)"/>
+			<column name="USER_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-4">
+		<createTable tableName="EXTENDED_DATA_ELEMENTS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013402"/>
+			</column>
+			<column name="MAXDURATION" type="INT"/>
+			<column name="MINDURATION" type="INT"/>
+			<column name="DATAELEMENT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MAXDURATIONTIMEUNIT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MINDURATIONTIMEUNIT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="PROPERTYCONSTRAINT_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-8">
+		<createTable tableName="FREQUENCIES">
+			<column name="ATLEASTCOUNT" type="INT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="CONSECUTIVE" type="BOOLEAN">
+				<constraints nullable="false"/>
+			</column>
+			<column name="WITHINATLEAST" type="INT"/>
+			<column name="WITHINATMOST" type="INT"/>
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013419"/>
+			</column>
+			<column name="EXTENDEDDATAELEMENT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="WITHINATLEASTUNITS_ID" type="BIGINT"/>
+			<column name="WITHINATMOSTUNITS_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet>     
+	<changeSet author="arpost (generated)" id="1360440238345-9">
+		<createTable tableName="PROPERTY_CONSTRAINTS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013422"/>
+			</column>
+			<column name="PROPERTYNAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VALUE" type="VARCHAR(255)"/>
+			<column name="VALUECOMPARATOR_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-10">
+		<createTable tableName="RELATION_OPS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013425"/>
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR(255)"/>
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-11">
+		<createTable tableName="RELATIONS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013431"/>
+			</column>
+			<column name="MAXF1S2" type="INT"/>
+			<column name="MAXS1F2" type="INT"/>
+			<column name="MINF1S2" type="INT"/>
+			<column name="MINS1F2" type="INT"/>
+			<column name="LHSEXTENDEDDATAELEMENT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MAXF1S2TIMEUNIT_ID" type="BIGINT"/>
+			<column name="MAXS1F2TIMEUNIT_ID" type="BIGINT"/>
+			<column name="MINF1S2TIMEUNIT_ID" type="BIGINT"/>
+			<column name="MINS1F2TIMEUNIT_ID" type="BIGINT"/>
+			<column name="RELATIONOP_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="RHSEXTENDEDDATAELEMENT_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="SEQUENCE_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet>              
+	<changeSet author="arpost (generated)" id="1360440238345-13">
+		<createTable tableName="SEQUENCES">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013433"/>
+			</column>
+			<column name="PRIMARYEXTENDEDDATAELEMENT_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-14">
+		<createTable tableName="SYSTEM_DATA_ELEMENTS">
+			<column name="SYSTEMTYPE" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013436"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-15">
+		<createTable tableName="THRESHOLDS_OPS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013439"/>
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR(255)"/>
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-16">
+		<createTable tableName="TIME_UNITS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013443"/>
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR(255)"/>
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="RANK" type="INT"/>
+		</createTable>
+	</changeSet>      
+	<changeSet author="arpost (generated)" id="1360440238345-19">
+		<createTable tableName="VALUE_COMPARATORS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013450"/>
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR(255)"/>
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="RANK" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="THRESHOLD" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="COMPLEMENT_ID" type="BIGINT"/>
+		</createTable>
+	</changeSet> 
+	<changeSet author="arpost (generated)" id="1360440238345-20">
+		<createTable tableName="VALUE_THRESHOLD_GROUPS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013455"/>
+			</column>
+			<column name="THRESHOLDSOP_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-21">
+		<createTable tableName="VALUE_THRESHOLDS">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="SYS_C0013461"/>
+			</column>
+			<column name="MAXTVALUETHRESHOLD" type="VARCHAR(255)"/>
+			<column name="MAXUNITS" type="VARCHAR(255)"/>
+			<column name="MAXVALUETHRESHOLD" type="NUMERIC"/>
+			<column name="MINTVALUETHRESHOLD" type="VARCHAR(255)"/>
+			<column name="MINUNITS" type="VARCHAR(255)"/>
+			<column name="MINVALUETHRESHOLD" type="NUMERIC"/>
+			<column name="ABSTRACTEDFROM_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MAXVALUECOMP_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="MINVALUECOMP_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="VALUETHRESHOLDSGROUP_ID" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>   
+	<changeSet author="arpost (generated)" id="1360440238345-22">
+		<addUniqueConstraint columnNames="KEY, USER_ID" constraintName="SYS_C0013397" deferrable="false" disabled="false" initiallyDeferred="false" tableName="DATA_ELEMENTS"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-23">
+		<addUniqueConstraint columnNames="NAME" constraintName="SYS_C0013426" deferrable="false" disabled="false" initiallyDeferred="false" tableName="RELATION_OPS"/>
+	</changeSet>  
+	<changeSet author="arpost (generated)" id="1360440238345-25">
+		<addUniqueConstraint columnNames="NAME" constraintName="SYS_C0013440" deferrable="false" disabled="false" initiallyDeferred="false" tableName="THRESHOLDS_OPS"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-26">
+		<addUniqueConstraint columnNames="NAME" constraintName="SYS_C0013444" deferrable="false" disabled="false" initiallyDeferred="false" tableName="TIME_UNITS"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-27">
+		<addUniqueConstraint columnNames="RANK" constraintName="SYS_C0013445" deferrable="false" disabled="false" initiallyDeferred="false" tableName="TIME_UNITS"/>
+	</changeSet>   
+	<changeSet author="arpost (generated)" id="1360440238345-29">
+		<addUniqueConstraint columnNames="NAME" constraintName="SYS_C0013451" deferrable="false" disabled="false" initiallyDeferred="false" tableName="VALUE_COMPARATORS"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-30">
+		<addUniqueConstraint columnNames="RANK" constraintName="SYS_C0013452" deferrable="false" disabled="false" initiallyDeferred="false" tableName="VALUE_COMPARATORS"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-31">
+		<addForeignKeyConstraint baseColumnNames="ID" baseTableName="CATEGORIES" constraintName="FK4D47461C2DAC163D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-32">
+		<addForeignKeyConstraint baseColumnNames="CATEGORY_ID" baseTableName="CATEGORY_MEMBERS" constraintName="FK38B4ED8976806F0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="CATEGORIES" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-33">
+		<addForeignKeyConstraint baseColumnNames="MEMBER_ID" baseTableName="CATEGORY_MEMBERS" constraintName="FK38B4ED87DACB202" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-34">
+		<addForeignKeyConstraint baseColumnNames="DATAELEMENT_ID" baseTableName="EXTENDED_DATA_ELEMENTS" constraintName="FK18762966D16F0D8A" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-35">
+		<addForeignKeyConstraint baseColumnNames="MAXDURATIONTIMEUNIT_ID" baseTableName="EXTENDED_DATA_ELEMENTS" constraintName="FK187629663C3904F5" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-36">
+		<addForeignKeyConstraint baseColumnNames="MINDURATIONTIMEUNIT_ID" baseTableName="EXTENDED_DATA_ELEMENTS" constraintName="FK1876296694AE5147" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-37">
+		<addForeignKeyConstraint baseColumnNames="PROPERTYCONSTRAINT_ID" baseTableName="EXTENDED_DATA_ELEMENTS" constraintName="FK187629668A6E938D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="PROPERTY_CONSTRAINTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-40">
+		<addForeignKeyConstraint baseColumnNames="EXTENDEDDATAELEMENT_ID" baseTableName="FREQUENCIES" constraintName="FK55076EFA858DC647" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="EXTENDED_DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-41">
+		<addForeignKeyConstraint baseColumnNames="ID" baseTableName="FREQUENCIES" constraintName="FK55076EFA2DAC163D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-42">
+		<addForeignKeyConstraint baseColumnNames="WITHINATLEASTUNITS_ID" baseTableName="FREQUENCIES" constraintName="FK55076EFA7DB3C4DA" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-43">
+		<addForeignKeyConstraint baseColumnNames="WITHINATMOSTUNITS_ID" baseTableName="FREQUENCIES" constraintName="FK55076EFA984A25F0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-44">
+		<addForeignKeyConstraint baseColumnNames="VALUECOMPARATOR_ID" baseTableName="PROPERTY_CONSTRAINTS" constraintName="FK416CACC9BE4E667" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_COMPARATORS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-45">
+		<addForeignKeyConstraint baseColumnNames="LHSEXTENDEDDATAELEMENT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F7FED8257E" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="EXTENDED_DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-46">
+		<addForeignKeyConstraint baseColumnNames="MAXF1S2TIMEUNIT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F7A3126ADF" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-47">
+		<addForeignKeyConstraint baseColumnNames="MAXS1F2TIMEUNIT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F7168F7B9F" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-48">
+		<addForeignKeyConstraint baseColumnNames="MINF1S2TIMEUNIT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F758AEB031" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-49">
+		<addForeignKeyConstraint baseColumnNames="MINS1F2TIMEUNIT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F7CC2BC0F1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-50">
+		<addForeignKeyConstraint baseColumnNames="RELATIONOP_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F7459AEE30" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="RELATION_OPS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-51">
+		<addForeignKeyConstraint baseColumnNames="RHSEXTENDEDDATAELEMENT_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F717F9F384" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="EXTENDED_DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-52">
+		<addForeignKeyConstraint baseColumnNames="SEQUENCE_ID" baseTableName="RELATIONS" constraintName="FKFF8B45F765DA0DD0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="SEQUENCES" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-53">
+		<addForeignKeyConstraint baseColumnNames="ID" baseTableName="SEQUENCES" constraintName="FKBD9E80D22DAC163D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-54">
+		<addForeignKeyConstraint baseColumnNames="PRIMARYEXTENDEDDATAELEMENT_ID" baseTableName="SEQUENCES" constraintName="FKBD9E80D281CF86C9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="EXTENDED_DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-55">
+		<addForeignKeyConstraint baseColumnNames="ID" baseTableName="SYSTEM_DATA_ELEMENTS" constraintName="FK51DC47DC2DAC163D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>  
+	<changeSet author="arpost (generated)" id="1360440238345-59">
+		<addForeignKeyConstraint baseColumnNames="ID" baseTableName="VALUE_THRESHOLD_GROUPS" constraintName="FKB716F5362DAC163D" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-60">
+		<addForeignKeyConstraint baseColumnNames="THRESHOLDSOP_ID" baseTableName="VALUE_THRESHOLD_GROUPS" constraintName="FKB716F536691D64F0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="THRESHOLDS_OPS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-61">
+		<addForeignKeyConstraint baseColumnNames="ABSTRACTEDFROM_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF623D9B391" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="DATA_ELEMENTS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-62">
+		<addForeignKeyConstraint baseColumnNames="MAXVALUECOMP_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF69B3AEC32" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_COMPARATORS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-63">
+		<addForeignKeyConstraint baseColumnNames="MINVALUECOMP_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF6590AF820" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_COMPARATORS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-64">
+		<addForeignKeyConstraint baseColumnNames="VALUETHRESHOLDSGROUP_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF6DE772609" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_THRESHOLD_GROUPS" referencesUniqueColumn="false"/>
+	</changeSet>  
+	<changeSet author="arpost (generated)" id="1360440238345-65">
+		<createSequence sequenceName="COMP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-66">
+		<createSequence sequenceName="CONSTRAINT_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-67">
+		<createSequence sequenceName="EXT_DE_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-68">
+		<createSequence sequenceName="EXT_PROP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-71">
+		<createSequence sequenceName="PROP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-72">
+		<createSequence sequenceName="RELATION_OP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-73">
+		<createSequence sequenceName="RELATION_SEQ"/>
+	</changeSet>             
+	<changeSet author="arpost (generated)" id="1360440238345-75">
+		<createSequence sequenceName="TEMP_PAT_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-76">
+		<createSequence sequenceName="THRESHOLDS_OP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-77">
+		<createSequence sequenceName="TIME_SEQ"/>
+	</changeSet> 
+	<changeSet author="arpost (generated)" id="1360440238345-79">
+		<createSequence sequenceName="VALUE_DEF_MATCH_OP_SEQ"/>
+	</changeSet>   
+	<changeSet author="arpost" id="1360440238345-81">
+		<insert tableName="TIME_UNITS">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="day"/>
+			<column name="DESCRIPTION" value="days"/>
+			<column name="RANK" valueNumeric="3"/>
+		</insert>
+		<insert tableName="TIME_UNITS">
+			<column name="ID" valueNumeric="2"/>
+			<column name="NAME" value="hour"/>
+			<column name="DESCRIPTION" value="hours"/>
+			<column name="RANK" valueNumeric="2"/>
+		</insert>
+		<insert tableName="TIME_UNITS">
+			<column name="ID" valueNumeric="3"/>
+			<column name="NAME" value="minute"/>
+			<column name="DESCRIPTION" value="minutes"/>
+			<column name="RANK" valueNumeric="1"/>
+		</insert>
+	</changeSet>   
+	<changeSet author="arpost" id="1360440238345-82">
+		<insert tableName="RELATION_OPS">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="before"/>
+			<column name="DESCRIPTION" value="before"/>
+		</insert>
+		<insert tableName="RELATION_OPS">
+			<column name="ID" valueNumeric="2"/>
+			<column name="NAME" value="after"/>
+			<column name="DESCRIPTION" value="after"/>
+		</insert>
+	</changeSet>
+	<changeSet author="arpost" id="1360440238345-83">
+		<insert tableName="THRESHOLDS_OPS">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="any"/>
+			<column name="DESCRIPTION" value="any"/>
+		</insert>
+		<insert tableName="THRESHOLDS_OPS">
+			<column name="ID" valueNumeric="2"/>
+			<column name="NAME" value="all"/>
+			<column name="DESCRIPTION" value="all"/>
+		</insert>
+	</changeSet>   
+	<changeSet author="arpost" id="1360440238345-84">
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="="/>
+			<column name="DESCRIPTION" value="equals"/>
+			<column name="RANK" valueNumeric="3"/>
+			<column name="THRESHOLD" value="BOTH"/>
+			<column name="COMPLEMENT_ID" valueNumeric="2"/>
+		</insert>
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="2"/>
+			<column name="NAME" value="not="/>
+			<column name="DESCRIPTION" value="not equals"/>
+			<column name="RANK" valueNumeric="4"/>
+			<column name="THRESHOLD" value="BOTH"/>
+			<column name="COMPLEMENT_ID" valueNumeric="1"/>
+		</insert>
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="3"/>
+			<column name="NAME" value="&gt;"/>
+			<column name="DESCRIPTION" value="greater than"/>
+			<column name="RANK" valueNumeric="5"/>
+			<column name="THRESHOLD" value="LOWER_ONLY"/>
+			<column name="COMPLEMENT_ID" valueNumeric="6"/>
+		</insert>
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="4"/>
+			<column name="NAME" value="&gt;="/>
+			<column name="DESCRIPTION" value="greater than or equal to"/>
+			<column name="RANK" valueNumeric="6"/>
+			<column name="THRESHOLD" value="LOWER_ONLY"/>
+			<column name="COMPLEMENT_ID" valueNumeric="5"/>
+		</insert>
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="5"/>
+			<column name="NAME" value="&lt;"/>
+			<column name="DESCRIPTION" value="less than"/>
+			<column name="RANK" valueNumeric="1"/>
+			<column name="THRESHOLD" value="UPPER_ONLY"/>
+			<column name="COMPLEMENT_ID" valueNumeric="4"/>
+		</insert>
+		<insert tableName="VALUE_COMPARATORS">
+			<column name="ID" valueNumeric="6"/>
+			<column name="NAME" value="&lt;="/>
+			<column name="DESCRIPTION" value="less than or equal to"/>
+			<column name="RANK" valueNumeric="2"/>
+			<column name="THRESHOLD" value="UPPER_ONLY"/>
+			<column name="COMPLEMENT_ID" valueNumeric="3"/>
+		</insert>
+	</changeSet>
+	<changeSet author="arpost (generated)" id="1360440238345-85">
+		<addForeignKeyConstraint baseColumnNames="COMPLEMENT_ID" baseTableName="VALUE_COMPARATORS" constraintName="FKA55F9C8F929E3CE8" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_COMPARATORS" referencesUniqueColumn="false"/>
+	</changeSet>      
+	<!-- 1.7 changes -->
+	
+	<changeSet author="arpost (generated)" id="1360440238345-86">
+		<addColumn tableName="EXTENDED_DATA_ELEMENTS">
+			<column name="VALUETHRESHOLD_ID" type="BIGINT"/>
+		</addColumn> 
+		<addColumn tableName="VALUE_THRESHOLDS">
+			<column name="RELATIONOP_ID" type="BIGINT"/>
+		</addColumn> 
+		<addColumn tableName="VALUE_THRESHOLDS">
+			<column name="WITHINATLEAST" type="INT"/>
+		</addColumn> 
+		<addColumn tableName="VALUE_THRESHOLDS">
+			<column name="WITHINATLEASTUNITS_ID" type="BIGINT" defaultValueNumeric="1">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn> 
+		<addColumn tableName="VALUE_THRESHOLDS">
+			<column name="WITHINATMOST" type="INT"/>
+		</addColumn> 
+		<addColumn tableName="VALUE_THRESHOLDS">
+			<column name="WITHINATMOSTUNITS_ID" type="BIGINT" defaultValueNumeric="1">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn> 
+		<addForeignKeyConstraint baseColumnNames="VALUETHRESHOLD_ID" baseTableName="EXTENDED_DATA_ELEMENTS" constraintName="FK18762966E8C1B210" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="VALUE_THRESHOLDS" referencesUniqueColumn="false"/>
+		<addForeignKeyConstraint baseColumnNames="RELATIONOP_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF6459AEE30" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="RELATION_OPS" referencesUniqueColumn="false"/>
+		<addForeignKeyConstraint baseColumnNames="WITHINATLEASTUNITS_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF67DB3C4DA" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+		<addForeignKeyConstraint baseColumnNames="WITHINATMOSTUNITS_ID" baseTableName="VALUE_THRESHOLDS" constraintName="FK7321CCF6984A25F0" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="ID" referencedTableName="TIME_UNITS" referencesUniqueColumn="false"/>
+	</changeSet>
+	<changeSet author="arpost" id="1360440238345-87">
+		<addColumn tableName="RELATION_OPS">
+			<column name="RANK" type="INT"/>
+			<column name="ISDEFAULT" type="BOOLEAN" defaultValueBoolean="false">
+				<constraints nullable="false"/>
+			</column>
+			<column name="TYPE" type="VARCHAR(255)"/>
+		</addColumn>
+		<addUniqueConstraint columnNames="RANK" constraintName="TIME_UNITS_RANK" deferrable="false" disabled="false" initiallyDeferred="false" tableName="RELATION_OPS"/>
+		<update tableName="RELATION_OPS">
+			<column name="RANK" valueNumeric="1"/>
+			<column name="ISDEFAULT" valueBoolean="true"/>
+			<column name="TYPE" value="SEQUENTIAL"/>
+			<where>NAME='before'</where>
+		</update>
+		<update tableName="RELATION_OPS">
+			<column name="RANK" valueNumeric="2"/>
+			<column name="TYPE" value="SEQUENTIAL"/>
+			<where>NAME='after'</where>
+		</update>
+		<insert tableName="RELATION_OPS">
+			<column name="ID" valueNumeric="3"/>
+			<column name="NAME" value="around"/>
+			<column name="DESCRIPTION" value="around"/>
+			<column name="RANK" valueNumeric="3"/>
+			<column name="TYPE" value="OVERLAPPING"/>
+		</insert>
+		<addNotNullConstraint tableName="RELATION_OPS" columnName="TYPE" columnDataType="VARCHAR(255)"/>
+		<addColumn tableName="TIME_UNITS">
+			<column name="ISDEFAULT" type="BOOLEAN" defaultValueBoolean="false">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+		<update tableName="TIME_UNITS">
+			<column name="ISDEFAULT" valueBoolean="true"/>
+			<where>NAME='day'</where>
+		</update>
+		<addNotNullConstraint tableName="PROPERTY_CONSTRAINTS" columnName="VALUECOMPARATOR_ID" columnDataType="BIGINT"/>
+	</changeSet>
+	<changeSet author="arpost" id="1360440238345-88">
+		<createTable tableName="FREQUENCY_TYPES">
+			<column name="ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="FREQ_TYPE_PK"/>
+			</column>
+			<column name="DESCRIPTION" type="VARCHAR(255)"/>
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="RANK" type="INT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="ISDEFAULT" type="BOOLEAN">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addUniqueConstraint columnNames="RANK" constraintName="FREQ_TYPE_RANK_UC" deferrable="false" disabled="false" initiallyDeferred="false" tableName="FREQUENCY_TYPES"/>
+		<addUniqueConstraint columnNames="NAME" constraintName="FREQ_TYPE_BAME_UC" deferrable="false" disabled="false" initiallyDeferred="false" tableName="FREQUENCY_TYPES"/>
+		<insert tableName="FREQUENCY_TYPES">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="at least"/>
+			<column name="DESCRIPTION" value="at least"/>
+			<column name="RANK" value="1"/>
+			<column name="ISDEFAULT" valueBoolean="true"/>
+		</insert>
+		<insert tableName="FREQUENCY_TYPES">
+			<column name="ID" valueNumeric="2"/>
+			<column name="NAME" value="first"/>
+			<column name="DESCRIPTION" value="first"/>
+			<column name="RANK" value="2"/>
+			<column name="ISDEFAULT" valueBoolean="false"/>
+		</insert>
+		<addColumn tableName="FREQUENCIES">
+			<column name="FREQUENCYTYPE_ID" type="BIGINT" defaultValueNumeric="1">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+		<createSequence sequenceName="FREQUENCYTYPES_OP_SEQ"/>
+	</changeSet>
+	<changeSet author="arpost" id="1360440238345-89">
+		<renameColumn tableName="FREQUENCIES" oldColumnName="ATLEASTCOUNT" newColumnName="COUNT"/>
+	</changeSet> 
+	<!-- 1.8 changes -->     
+        <!-- 1.9 changes -->  
+		<changeSet author="arpost" id="1360440238345-97">
+			<dropSequence sequenceName="TIME_SEQ"/>
+			<createSequence sequenceName="TIME_SEQ" startValue="4"/>
+			<dropSequence sequenceName="RELATION_OP_SEQ"/>
+			<createSequence sequenceName="RELATION_OP_SEQ" startValue="4"/>
+			<dropSequence sequenceName="THRESHOLDS_OP_SEQ"/>
+			<createSequence sequenceName="THRESHOLDS_OP_SEQ" startValue="3"/>
+			<dropSequence sequenceName="COMP_SEQ"/>
+			<createSequence sequenceName="COMP_SEQ" startValue="7"/>
+			<dropSequence sequenceName="FREQUENCYTYPES_OP_SEQ"/>
+			<createSequence sequenceName="FREQUENCYTYPES_OP_SEQ" startValue="3"/>
+		</changeSet>
+		<changeSet author="arpost" id="1360440238345-98">
+			<renameTable oldTableName="DATA_ELEMENTS" newTableName="PHENOTYPES"/>
+			<renameTable oldTableName="EXTENDED_DATA_ELEMENTS" newTableName="EXTENDED_PHENOTYPES"/>
+			<renameColumn tableName="EXTENDED_PHENOTYPES" oldColumnName="DATAELEMENT_ID" newColumnName="PHENOTYPE_ID"/>
+			<renameColumn tableName="FREQUENCIES" oldColumnName="EXTENDEDDATAELEMENT_ID" newColumnName="EXTENDEDPHENOTYPE_ID"/>
+			<renameColumn tableName="RELATIONS" oldColumnName="LHSEXTENDEDDATAELEMENT_ID" newColumnName="LHSEXTENDEDPHENOTYPE_ID"/>
+			<renameColumn tableName="RELATIONS" oldColumnName="RHSEXTENDEDDATAELEMENT_ID" newColumnName="RHSEXTENDEDPHENOTYPE_ID"/>
+			<renameColumn tableName="SEQUENCES" oldColumnName="PRIMARYEXTENDEDDATAELEMENT_ID" newColumnName="PRIMARYEXTENDEDPHENOTYPE_ID"/>
+			<renameTable oldTableName="SYSTEM_DATA_ELEMENTS" newTableName="SYSTEM_PHENOTYPES"/>
+		</changeSet>                                                                                                      
 </databaseChangeLog>

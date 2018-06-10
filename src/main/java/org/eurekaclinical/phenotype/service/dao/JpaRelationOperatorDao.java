@@ -21,29 +21,38 @@ package org.eurekaclinical.phenotype.service.dao;
 
 import javax.persistence.EntityManager;
 
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.eurekaclinical.phenotype.service.entity.AuthorizedRoleEntity;
 
-import org.eurekaclinical.standardapis.dao.AbstractJpaRoleDao;
+import org.eurekaclinical.phenotype.client.comm.RelationOperator_;
+import org.eurekaclinical.phenotype.client.comm.RelationOperator;
+
+import java.util.List;
+import org.eurekaclinical.standardapis.dao.GenericDao;
 
 /**
- * A {@link RoleDao} implementation, backed by JPA entities and queries.
- *
  * @author hrathod
- *
  */
-public class JpaRoleDao extends AbstractJpaRoleDao<AuthorizedRoleEntity> implements RoleDao {
+public class JpaRelationOperatorDao extends GenericDao<RelationOperator,
+	Long> implements RelationOperatorDao {
 
-	/**
-	 * Create a new object with the given entity manager.
-	 *
-	 * @param inManagerProvider A provider for entity manager instances.
-	 */
 	@Inject
-	public JpaRoleDao(Provider<EntityManager> inManagerProvider) {
-		super(AuthorizedRoleEntity.class, inManagerProvider);
+	public JpaRelationOperatorDao (Provider<EntityManager> inManagerProvider) {
+		super(RelationOperator.class, inManagerProvider);
 	}
 
+	@Override
+	public RelationOperator getByName (String inName) {
+		return this.getUniqueByAttribute(RelationOperator_.name, inName);
+	}
+	
+	@Override
+	public RelationOperator getDefault() {
+		return getUniqueByAttribute(RelationOperator_.isDefault, true);
+	}
+	
+	@Override
+	public List<RelationOperator> getAllAsc() {
+		return getListAsc(RelationOperator_.rank);
+	}
 }

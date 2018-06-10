@@ -63,11 +63,17 @@ public final class PropositionUtil {
 
 	/**
 	 * Wraps a proposition definition into a proposition wrapper.
+         * @param sourceConfigId sourceConfigId
+         * @param inDefinition inDefinition
+         * @param summarize summarize
+         * @param inPropositionFinder inPropositionFinder
+         * @return systemPhenotype
+         * @throws org.eurekaclinical.phenotype.service.finder.PropositionFindException if error finding proposition
 	 */
 	public static SystemPhenotype toSystemPhenotype(
 			String sourceConfigId,
-	        PropositionDefinition inDefinition, boolean summarize,
-	        SystemPropositionFinder inPropositionFinder)
+                        PropositionDefinition inDefinition, boolean summarize,
+                        SystemPropositionFinder inPropositionFinder)
 	        throws PropositionFindException {
 		if (inDefinition == null) {
 			throw new IllegalArgumentException("inDefinition cannot be null");

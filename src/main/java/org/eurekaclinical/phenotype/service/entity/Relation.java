@@ -19,8 +19,8 @@
  */
 package org.eurekaclinical.phenotype.service.entity;
 
-import org.eurekaclinical.phenotype.client.comm.TimeUnit;
 import org.eurekaclinical.phenotype.client.comm.RelationOperator;
+import org.eurekaclinical.phenotype.client.comm.TimeUnit;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

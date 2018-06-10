@@ -42,7 +42,7 @@ public class SystemPropositionFinder extends AbstractPropositionFinder<String> {
 	 * @param inKeys the keys of the system elements to look up
 	 * @param withChildren whether to find the given system elements' children as well
 	 * @return a {@link List} of {@link SystemPhenotype}s
-	 * @throws PropositionFindException
+         * @throws org.eurekaclinical.phenotype.service.finder.PropositionFindException if error finding proposition
 	 */
 	public List<PropositionDefinition> findAll(
 	        String sourceConfigId, List<String> inKeys, Boolean withChildren) throws PropositionFindException {

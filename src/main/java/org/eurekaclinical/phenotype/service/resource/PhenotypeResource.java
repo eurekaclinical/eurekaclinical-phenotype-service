@@ -41,9 +41,8 @@ import com.google.inject.persist.Transactional;
 import org.eurekaclinical.eureka.client.comm.Phenotype;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
 import org.eurekaclinical.phenotype.service.entity.PropositionChildrenVisitor;
-import org.eurekaclinical.phenotype.service.entity.UserEntity;
 import org.eurekaclinical.eureka.client.comm.exception.PhenotypeHandlingException;
-import org.eurekaclinical.phenotype.service.dao.UserDao;
+import org.eurekaclinical.phenotype.service.dao.AuthorizedUserDao;
 import org.eurekaclinical.phenotype.service.translation.PhenotypeEntityTranslatorVisitor;
 import org.eurekaclinical.phenotype.service.translation.PhenotypeTranslatorVisitor;
 import org.eurekaclinical.phenotype.service.translation.SummarizingPhenotypeEntityTranslatorVisitor;
@@ -51,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.eurekaclinical.phenotype.service.dao.PhenotypeEntityDao;
 import java.net.URI;
+import org.eurekaclinical.phenotype.service.entity.AuthorizedUserEntity;
 import org.eurekaclinical.standardapis.exception.HttpStatusException;
 
 /**
@@ -60,7 +60,7 @@ import org.eurekaclinical.standardapis.exception.HttpStatusException;
  */
 @Transactional
 @Path("/protected/phenotypes")
-@RolesAllowed({"researcher"})
+@RolesAllowed({"admin"})
 @Consumes(MediaType.APPLICATION_JSON)
 public class PhenotypeResource {
     
@@ -70,13 +70,13 @@ public class PhenotypeResource {
 	private static final ResourceBundle messages
 			= ResourceBundle.getBundle("Messages");
 	private final PhenotypeEntityDao phenotypeEntityDao;
-	private final UserDao userDao;
+	private final AuthorizedUserDao userDao;
 	private final PhenotypeEntityTranslatorVisitor pETranslatorVisitor;
 	private final PhenotypeTranslatorVisitor phenotypeTranslatorVisitor;
 	private final SummarizingPhenotypeEntityTranslatorVisitor summpETranslatorVisitor;
 
 	@Inject
-	public PhenotypeResource(PhenotypeEntityDao inDao, UserDao inUserDao,
+	public PhenotypeResource(PhenotypeEntityDao inDao, AuthorizedUserDao inUserDao,
 			PhenotypeEntityTranslatorVisitor inPETranslatorVisitor,
 			SummarizingPhenotypeEntityTranslatorVisitor inSummpETranslatorVisitor,
 			PhenotypeTranslatorVisitor inPhenotypeTranslatorVisitor) {
@@ -91,7 +91,7 @@ public class PhenotypeResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Phenotype> getAll(@Context HttpServletRequest inRequest,
 			@DefaultValue("false") @QueryParam("summarize") boolean inSummarize) {
-		UserEntity user = this.userDao.getByHttpServletRequest(inRequest);
+		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
 		List<Phenotype> result = new ArrayList<>();
 		List<PhenotypeEntity> phenotypeEntities
 				= this.phenotypeEntityDao.getByUserId(user.getId());
@@ -108,7 +108,7 @@ public class PhenotypeResource {
 	public Phenotype get(@Context HttpServletRequest inRequest,
 			@PathParam("key") String inKey,
 			@DefaultValue("false") @QueryParam("summarize") boolean inSummarize) {
-		UserEntity user = this.userDao.getByHttpServletRequest(inRequest);
+		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
 		Phenotype result = readPhenotype(user, inKey, inSummarize);
 		if (result == null) {
 			throw new HttpStatusException(Response.Status.NOT_FOUND);
@@ -119,33 +119,36 @@ public class PhenotypeResource {
 
 	@POST
 	public Response create(@Context HttpServletRequest request, Phenotype inPhenotype) {
+                System.out.println("\n test 0000\n");
 		if (inPhenotype.getId() != null) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created should not have an identifier.");
 		}
-
+                System.out.println("\n test 0001\n");
 		if (inPhenotype.getUserId() == null) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created should have a user identifier.");
 		}
-
+                System.out.println("\n test 0002\n");
 		if (inPhenotype.isSummarized()) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created cannot be summarized.");
 		}
-
-		try {
+                System.out.println("\n test 0003\n");
+		try {   
 			inPhenotype.accept(this.phenotypeTranslatorVisitor);
+                        System.out.println("\n test 0004\n");
 		} catch (PhenotypeHandlingException ex) {
+                        System.out.println("\n test 0005\n");
 			throw new HttpStatusException(ex.getStatus(), ex);
 		}
-                
+                System.out.println("\n test 0006\n");
 		PhenotypeEntity phenotypeEntity = this.phenotypeTranslatorVisitor
 				.getPhenotypeEntity();
-
+                System.out.println("\n test 0007\n");
 		if (this.phenotypeEntityDao.getByUserAndKey(
 				inPhenotype.getUserId(), phenotypeEntity.getKey()) != null) {
 			String msg = messages.getString(
@@ -156,7 +159,7 @@ public class PhenotypeResource {
 		Date now = new Date();
 		phenotypeEntity.setCreated(now);
 		phenotypeEntity.setLastModified(now);
-
+                System.out.println("\n test 0008\n");
 		this.phenotypeEntityDao.create(phenotypeEntity);
                 
                 Long id;
@@ -216,7 +219,7 @@ public class PhenotypeResource {
 				inElement.getUserId())) {
 			throw new HttpStatusException(Response.Status.NOT_FOUND);
 		} else {
-			UserEntity user
+			AuthorizedUserEntity user
 					= this.userDao.getByHttpServletRequest(inRequest);
 			if (!user.getId().equals(oldPhenotypeEntity.getUserId())) {
 				throw new HttpStatusException(Response.Status.NOT_FOUND);
@@ -233,7 +236,7 @@ public class PhenotypeResource {
 	@DELETE
 	@Path("/{id}")
 	public void delete(@PathParam("id") Long inId, @Context HttpServletRequest inRequest) {
-		UserEntity user = this.userDao.getByHttpServletRequest(inRequest);
+		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
 		PhenotypeEntity phenotypeEntity
 				= this.phenotypeEntityDao.getById(inId);
 		if (phenotypeEntity == null) {
@@ -295,7 +298,7 @@ public class PhenotypeResource {
 		return phenotypesUsedIn;
 	}
 
-	private Phenotype readPhenotype(UserEntity userEntity, 
+	private Phenotype readPhenotype(AuthorizedUserEntity userEntity, 
 			String inKey, boolean summarize) {
 		Phenotype result;
 		PhenotypeEntity phenotypeEntity

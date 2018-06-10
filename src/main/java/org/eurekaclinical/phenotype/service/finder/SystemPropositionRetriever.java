@@ -77,7 +77,7 @@ public class SystemPropositionRetriever implements
 	 * @param withChildren whether the children of the given elements should be
 	 * retrieved as well
 	 * @return a {@link List} of {@link SystemPhenotype}s
-	 * @throws PropositionFindException
+         * @throws org.eurekaclinical.phenotype.service.finder.PropositionFindException if error finding proposition
 	 */
 	public List<PropositionDefinition> retrieveAll(
 			String sourceConfigId, List<String> inKeys, Boolean withChildren) throws PropositionFindException {

@@ -1,4 +1,4 @@
-package org.eurekaclinical.phenotype.service.props;
+package org.eurekaclinical.phenotype.service.config;
 
 /*-
  * #%L
@@ -25,10 +25,10 @@ import org.eurekaclinical.standardapis.props.CasJerseyEurekaClinicalProperties;
 /**
  * Created by akalsan on 10/4/16.
  */
-public class ServiceProperties extends CasJerseyEurekaClinicalProperties {
+public class PhenotypeServiceProperties extends CasJerseyEurekaClinicalProperties {
 
-    public ServiceProperties() {
-        super("/etc/ec.phenotype");
+    public PhenotypeServiceProperties() {
+        super("/etc/ec-phenotype");
     }
 
     @Override

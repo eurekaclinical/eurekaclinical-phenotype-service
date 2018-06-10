@@ -26,7 +26,6 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.GuiceServletContextListener;
 import org.eurekaclinical.common.config.InjectorSupport;
 import org.eurekaclinical.common.config.ServiceServletModule;
-import org.eurekaclinical.phenotype.service.props.ServiceProperties;
 
 /**
  * Loaded on application startup, this class creates the Guice injector. If
@@ -37,17 +36,16 @@ import org.eurekaclinical.phenotype.service.props.ServiceProperties;
  * {@link org.eurekaclinical.common.config.ClientSessionListener} for each
  * client and add it to the servlet context.
  */
-public class ContextListener extends GuiceServletContextListener {
-    private static final String PACKAGE_NAMES = "org.eurekaclinical.service.resource";
-    private static final String JPA_UNIT = "service-jpa-unit";
-    
-    private final ServiceProperties properties;
+public class PhenotypeContextListener extends GuiceServletContextListener {
+    private static final String PACKAGE_NAMES = "org.eurekaclinical.phenotype.service.resource";
+    private static final String JPA_UNIT = "eurekaclinical-phenotype-service-jpa-unit";
+    private final PhenotypeServiceProperties phenotypeServiceProperties;
     
     /**
      * Constructs an instance of this class.
      */
-    public ContextListener() {
-        this.properties = new ServiceProperties();
+    public PhenotypeContextListener() {
+        this.phenotypeServiceProperties = new PhenotypeServiceProperties();
     }
 
     /**
@@ -61,9 +59,9 @@ public class ContextListener extends GuiceServletContextListener {
         return new InjectorSupport(
             new Module[]{
                 new AppModule(),
-                new ServiceServletModule(this.properties, PACKAGE_NAMES),
+                new ServiceServletModule(this.phenotypeServiceProperties, PACKAGE_NAMES),
                 new JpaPersistModule(JPA_UNIT)
             },
-            this.properties).getInjector();
+            this.phenotypeServiceProperties).getInjector();
     }
 }

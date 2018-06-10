@@ -35,12 +35,14 @@ This project includes:
   Google Guice - Extensions - JNDI under The Apache Software License, Version 2.0
   Google Guice - Extensions - Persist under The Apache Software License, Version 2.0
   Google Guice - Extensions - Servlet under The Apache Software License, Version 2.0
+  H2 Database Engine under MPL 2.0 or EPL 1.0
   Hibernate Commons Annotations under GNU Lesser General Public License
   Hibernate JPA 2 Metamodel Generator under GNU Lesser General Public License
   Hibernate JPA Support under GNU Lesser General Public License
   HttpClient under Apache License
   HttpCore under Apache License
   Jackson under The Apache Software License, Version 2.0
+  Jasig CAS Client for Java - Core under Apache License Version 2.0
   Java Annotation Indexer under Apache License, Version 2.0
   Java Persistence API, Version 2.1 under Eclipse Public License (EPL), Version 1.0 or Eclipse Distribution License (EDL), Version 1.0
   Java Servlet API under CDDL + GPLv2 with classpath exception
