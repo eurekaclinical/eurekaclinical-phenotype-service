@@ -30,7 +30,6 @@ import org.eurekaclinical.eureka.client.comm.PhenotypeField;
 import org.eurekaclinical.eureka.client.comm.exception.PhenotypeHandlingException;
 import org.eurekaclinical.phenotype.service.finder.SystemPropositionFinder;
 import org.eurekaclinical.phenotype.service.resource.SourceConfigResource;
-
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;

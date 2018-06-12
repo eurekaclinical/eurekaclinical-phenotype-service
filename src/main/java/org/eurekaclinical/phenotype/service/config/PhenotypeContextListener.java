@@ -24,7 +24,11 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.GuiceServletContextListener;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import org.eurekaclinical.common.config.ClientSessionListener;
 import org.eurekaclinical.common.config.InjectorSupport;
+import org.eurekaclinical.common.config.ProxyingServiceServletModule;
 import org.eurekaclinical.common.config.ServiceServletModule;
 
 /**
@@ -40,12 +44,14 @@ public class PhenotypeContextListener extends GuiceServletContextListener {
     private static final String PACKAGE_NAMES = "org.eurekaclinical.phenotype.service.resource";
     private static final String JPA_UNIT = "eurekaclinical-phenotype-service-jpa-unit";
     private final PhenotypeServiceProperties phenotypeServiceProperties;
-    
+    private final EtlClientProvider etlClientProvider;
+
     /**
      * Constructs an instance of this class.
      */
     public PhenotypeContextListener() {
         this.phenotypeServiceProperties = new PhenotypeServiceProperties();
+        this.etlClientProvider = new EtlClientProvider(this.phenotypeServiceProperties.getEtlUrl());
     }
 
     /**
@@ -58,10 +64,17 @@ public class PhenotypeContextListener extends GuiceServletContextListener {
     protected Injector getInjector() {
         return new InjectorSupport(
             new Module[]{
-                new AppModule(),
-                new ServiceServletModule(this.phenotypeServiceProperties, PACKAGE_NAMES),
+                new AppModule(this.etlClientProvider),
+                new ProxyingServiceServletModule(this.phenotypeServiceProperties, PACKAGE_NAMES),
                 new JpaPersistModule(JPA_UNIT)
             },
             this.phenotypeServiceProperties).getInjector();
     }
+    
+    @Override
+	public void contextInitialized(ServletContextEvent servletContextEvent) {
+		super.contextInitialized(servletContextEvent);
+		ServletContext servletContext = servletContextEvent.getServletContext();
+		servletContext.addListener(new ClientSessionListener());
+	}
 }

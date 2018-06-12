@@ -22,6 +22,7 @@ package org.eurekaclinical.phenotype.service.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
+import com.google.inject.servlet.SessionScoped;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import org.eurekaclinical.phenotype.service.dao.AuthorizedUserDao;
@@ -47,12 +48,18 @@ import org.eurekaclinical.phenotype.service.dao.JpaUserDao;
 import org.eurekaclinical.standardapis.entity.RoleEntity;
 import org.eurekaclinical.standardapis.entity.UserEntity;
 import org.eurekaclinical.phenotype.service.dao.RoleDao;
+import org.eurekaclinical.protempa.client.EurekaClinicalProtempaClient;
 import org.eurekaclinical.standardapis.dao.UserDao;
 
 /**
  * Created by akalsan on 10/4/16.
  */
 public class AppModule extends AbstractModule {
+        private final EtlClientProvider etlClientProvider;
+
+        AppModule(EtlClientProvider inEtlClientProvider) {
+		this.etlClientProvider = inEtlClientProvider;
+	}
 
         @Override
         protected void configure() {
@@ -71,6 +78,9 @@ public class AppModule extends AbstractModule {
                 bind(new TypeLiteral<PropositionFinder<
                                 String>>(){}).to(SystemPropositionFinder.class);
 
-                bind(Context.class).to(InitialContext.class);                
+                bind(Context.class).to(InitialContext.class);   
+                
+                bind(EurekaClinicalProtempaClient.class).toProvider(this.etlClientProvider).in(SessionScoped.class);
+
         }
 }
