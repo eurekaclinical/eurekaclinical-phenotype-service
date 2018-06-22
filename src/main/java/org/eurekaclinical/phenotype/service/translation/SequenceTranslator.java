@@ -31,12 +31,6 @@ import com.google.inject.Inject;
 import org.eurekaclinical.eureka.client.comm.PhenotypeField;
 import org.eurekaclinical.eureka.client.comm.Sequence;
 import org.eurekaclinical.eureka.client.comm.RelatedPhenotypeField;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ExtendedPhenotype;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PropositionTypeVisitor;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.Relation;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.RelationOperator;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SequenceEntity;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
 import org.eurekaclinical.phenotype.service.entity.ExtendedPhenotype;
 import org.eurekaclinical.phenotype.service.entity.PropositionTypeVisitor;
@@ -107,61 +101,63 @@ public class SequenceTranslator implements
 		}
 
 		int i = 0;
-		for (RelatedPhenotypeField rde : phenotype.getRelatedPhenotypes()) {
-			ExtendedPhenotype lhsEP = null;
-			ExtendedPhenotype rhsEP = null;
-			Relation relation;
-			if (relations.size() > i) {
-				relation = relations.get(i);
-				lhsEP = relation.getLhsExtendedPhenotype();
-				rhsEP = relation.getRhsExtendedPhenotype();
-			} else {
-				relation = new Relation();
-				relations.add(relation);
-			}
+                if(phenotype.getRelatedPhenotypes()!=null){
+                        for (RelatedPhenotypeField rde : phenotype.getRelatedPhenotypes()) {
+                                ExtendedPhenotype lhsEP = null;
+                                ExtendedPhenotype rhsEP = null;
+                                Relation relation;
+                                if (relations.size() > i) {
+                                        relation = relations.get(i);
+                                        lhsEP = relation.getLhsExtendedPhenotype();
+                                        rhsEP = relation.getRhsExtendedPhenotype();
+                                } else {
+                                        relation = new Relation();
+                                        relations.add(relation);
+                                }
 
-			PhenotypeField lhsDEF = rde.getPhenotypeField();
-			lhsEP = createExtendedProposition(lhsEP,
-					rde.getPhenotypeField(), Long.valueOf(i + 2), userId);
-			phenotypesMap.put(lhsDEF.getPhenotypeKey(), lhsDEF);
-			PhenotypeField rhsDEF = phenotypesMap.get(
-					rde.getSequentialPhenotype());
-			if (rhsDEF == null) {
-				throw new PhenotypeHandlingException(
-						Response.Status.PRECONDITION_FAILED,
-						"Invalid phenotype "
-						+ rde.getSequentialPhenotype());
-			}
-			rhsEP = createExtendedProposition(rhsEP, rhsDEF,
-					rde.getSequentialPhenotypeSource(), userId);
+                                PhenotypeField lhsDEF = rde.getPhenotypeField();
+                                lhsEP = createExtendedProposition(lhsEP,
+                                                rde.getPhenotypeField(), Long.valueOf(i + 2), userId);
+                                phenotypesMap.put(lhsDEF.getPhenotypeKey(), lhsDEF);
+                                PhenotypeField rhsDEF = phenotypesMap.get(
+                                                rde.getSequentialPhenotype());
+                                if (rhsDEF == null) {
+                                        throw new PhenotypeHandlingException(
+                                                        Response.Status.PRECONDITION_FAILED,
+                                                        "Invalid phenotype "
+                                                        + rde.getSequentialPhenotype());
+                                }
+                                rhsEP = createExtendedProposition(rhsEP, rhsDEF,
+                                                rde.getSequentialPhenotypeSource(), userId);
 
-			RelationOperator relationOperator =
-					this.relationOperatorDao.retrieve(
-					rde.getRelationOperator());
+                                RelationOperator relationOperator =
+                                                this.relationOperatorDao.retrieve(
+                                                rde.getRelationOperator());
 
-			relation.setMinf1s2(rde.getRelationMinCount());
-			relation.setMinf1s2TimeUnit(
-					this.timeUnitDao.retrieve(rde.getRelationMinUnits()));
-			relation.setMaxf1s2(rde.getRelationMaxCount());
-			relation.setMaxf1s2TimeUnit(
-					this.timeUnitDao.retrieve(rde.getRelationMaxUnits()));
-			relation.setRelationOperator(relationOperator);
+                                relation.setMinf1s2(rde.getRelationMinCount());
+                                relation.setMinf1s2TimeUnit(
+                                                this.timeUnitDao.retrieve(rde.getRelationMinUnits()));
+                                relation.setMaxf1s2(rde.getRelationMaxCount());
+                                relation.setMaxf1s2TimeUnit(
+                                                this.timeUnitDao.retrieve(rde.getRelationMaxUnits()));
+                                relation.setRelationOperator(relationOperator);
 
-			String relOpName = relationOperator.getName();
-			if (relOpName.equals("before")) {
-				relation.setLhsExtendedPhenotype(lhsEP);
-				relation.setRhsExtendedPhenotype(rhsEP);
-			} else if (relOpName.equals("after")) {
-				relation.setLhsExtendedPhenotype(rhsEP);
-				relation.setRhsExtendedPhenotype(lhsEP);
-			} else {
-				throw new PhenotypeHandlingException(
-						Response.Status.BAD_REQUEST,
-						"Invalid temporal relationship '" + relOpName + "'");
-			}
+                                String relOpName = relationOperator.getName();
+                                if (relOpName.equals("before")) {
+                                        relation.setLhsExtendedPhenotype(lhsEP);
+                                        relation.setRhsExtendedPhenotype(rhsEP);
+                                } else if (relOpName.equals("after")) {
+                                        relation.setLhsExtendedPhenotype(rhsEP);
+                                        relation.setRhsExtendedPhenotype(lhsEP);
+                                } else {
+                                        throw new PhenotypeHandlingException(
+                                                        Response.Status.BAD_REQUEST,
+                                                        "Invalid temporal relationship '" + relOpName + "'");
+                                }
 
-			i++;
-		}
+                                i++;
+                        }
+                }
 
 		return result;
 	}

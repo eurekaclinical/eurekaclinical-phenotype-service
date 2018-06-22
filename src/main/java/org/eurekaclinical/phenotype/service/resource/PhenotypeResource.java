@@ -119,36 +119,28 @@ public class PhenotypeResource {
 
 	@POST
 	public Response create(@Context HttpServletRequest request, Phenotype inPhenotype) {
-                System.out.println("\n test 0000\n");
 		if (inPhenotype.getId() != null) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created should not have an identifier.");
 		}
-                System.out.println("\n test 0001\n");
 		if (inPhenotype.getUserId() == null) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created should have a user identifier.");
 		}
-                System.out.println("\n test 0002\n");
 		if (inPhenotype.isSummarized()) {
 			throw new HttpStatusException(
 					Response.Status.PRECONDITION_FAILED, "Phenotype to "
 					+ "be created cannot be summarized.");
 		}
-                System.out.println("\n test 0003\n");
 		try {   
 			inPhenotype.accept(this.phenotypeTranslatorVisitor);
-                        System.out.println("\n test 0004\n");
 		} catch (PhenotypeHandlingException ex) {
-                        System.out.println("\n test 0005\n");
 			throw new HttpStatusException(ex.getStatus(), ex);
 		}
-                System.out.println("\n test 0006\n");
 		PhenotypeEntity phenotypeEntity = this.phenotypeTranslatorVisitor
 				.getPhenotypeEntity();
-                System.out.println("\n test 0007\n");
 		if (this.phenotypeEntityDao.getByUserAndKey(
 				inPhenotype.getUserId(), phenotypeEntity.getKey()) != null) {
 			String msg = messages.getString(
@@ -159,7 +151,6 @@ public class PhenotypeResource {
 		Date now = new Date();
 		phenotypeEntity.setCreated(now);
 		phenotypeEntity.setLastModified(now);
-                System.out.println("\n test 0008\n");
 		this.phenotypeEntityDao.create(phenotypeEntity);
                 
                 Long id;
