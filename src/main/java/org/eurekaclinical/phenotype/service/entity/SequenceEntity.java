@@ -19,7 +19,7 @@
  */
 package org.eurekaclinical.phenotype.service.entity;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.CategoryEntity.CategoryType;
+//import org.eurekaclinical.phenotype.service.entity.CategoryEntity.CategoryType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

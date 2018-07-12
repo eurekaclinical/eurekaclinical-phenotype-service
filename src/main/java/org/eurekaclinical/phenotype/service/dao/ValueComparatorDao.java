@@ -19,7 +19,7 @@
  */
 package org.eurekaclinical.phenotype.service.dao;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ValueComparator;
+//import org.eurekaclinical.phenotype.service.entity.ValueComparator;
 import java.util.List;
 import org.eurekaclinical.standardapis.dao.Dao;
 

@@ -20,7 +20,7 @@
 package org.eurekaclinical.phenotype.service.entity;
 
 import org.eurekaclinical.eureka.client.comm.SystemType;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.CategoryEntity.CategoryType;
+//import org.eurekaclinical.phenotype.service.entity.CategoryEntity.CategoryType;
 
 import org.eurekaclinical.phenotype.service.entity.CategoryEntity.CategoryType;
 

@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 import org.eurekaclinical.eureka.client.comm.PhenotypeField;
 import org.eurekaclinical.eureka.client.comm.ValueThreshold;
 import org.eurekaclinical.eureka.client.comm.ValueThresholds;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.*;
+//import org.eurekaclinical.phenotype.service.entity.*;
 import org.eurekaclinical.eureka.client.comm.exception.PhenotypeHandlingException;
 import org.eurekaclinical.phenotype.service.dao.RelationOperatorDao;
 import org.eurekaclinical.phenotype.service.dao.ThresholdsOperatorDao;

@@ -21,7 +21,7 @@ package org.eurekaclinical.phenotype.service.dao;
 
 import java.util.List;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntity;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
 import org.eurekaclinical.standardapis.dao.Dao;
 
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;

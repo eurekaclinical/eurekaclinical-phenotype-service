@@ -29,12 +29,12 @@ import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntityVisitor;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.CategoryEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.FrequencyEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SequenceEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SystemProposition;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ValueThresholdGroupEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntityVisitor;
+//import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
+//import org.eurekaclinical.phenotype.service.entity.FrequencyEntity;
+//import org.eurekaclinical.phenotype.service.entity.SequenceEntity;
+//import org.eurekaclinical.phenotype.service.entity.SystemProposition;
+//import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntityVisitor;
 
 public final class PhenotypeEntityTranslatorVisitor implements
 		PhenotypeEntityVisitor {

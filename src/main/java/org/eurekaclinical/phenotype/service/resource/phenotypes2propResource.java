@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
@@ -50,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.eurekaclinical.phenotype.service.dao.PhenotypeEntityDao;
 import java.net.URI;
+import org.eurekaclinical.phenotype.service.conversion.ConversionSupport;
 import org.eurekaclinical.phenotype.service.conversion.PropositionDefinitionCollector;
 import org.eurekaclinical.phenotype.service.conversion.PropositionDefinitionConverterVisitor;
 import org.eurekaclinical.phenotype.service.entity.AuthorizedUserEntity;
@@ -62,13 +64,13 @@ import org.protempa.PropositionDefinition;
  * @author hrathod
  */
 @Transactional
-@Path("/protected/phenotypes")
+@Path("/protected/phenotypes2prop")
 @RolesAllowed({"admin"})
 @Consumes(MediaType.APPLICATION_JSON)
-public class PhenotypeResource {
+public class phenotypes2propResource {
     
 	private static final Logger LOGGER
-			= LoggerFactory.getLogger(PhenotypeResource.class);
+			= LoggerFactory.getLogger(phenotypes2propResource.class);
         
 	private static final ResourceBundle messages
 			= ResourceBundle.getBundle("Messages");
@@ -78,8 +80,10 @@ public class PhenotypeResource {
 	private final PhenotypeTranslatorVisitor phenotypeTranslatorVisitor;
 	private final SummarizingPhenotypeEntityTranslatorVisitor summpETranslatorVisitor;
         private final PropositionDefinitionConverterVisitor converterVisitor;
+        private final ConversionSupport conversionSupport;
+        
 	@Inject
-	public PhenotypeResource(PhenotypeEntityDao inDao, AuthorizedUserDao inUserDao,
+	public phenotypes2propResource(PhenotypeEntityDao inDao, AuthorizedUserDao inUserDao,
 			PhenotypeEntityTranslatorVisitor inPETranslatorVisitor,
 			SummarizingPhenotypeEntityTranslatorVisitor inSummpETranslatorVisitor,
 			PhenotypeTranslatorVisitor inPhenotypeTranslatorVisitor,
@@ -90,26 +94,11 @@ public class PhenotypeResource {
 		this.phenotypeTranslatorVisitor = inPhenotypeTranslatorVisitor;
 		this.userDao = inUserDao;
                 this.converterVisitor = inVisitor;
-	}
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Phenotype> getAll(@Context HttpServletRequest inRequest,
-			@DefaultValue("false") @QueryParam("summarize") boolean inSummarize) {
-		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
-		List<Phenotype> result = new ArrayList<>();
-		List<PhenotypeEntity> phenotypeEntities
-				= this.phenotypeEntityDao.getByUserId(user.getId());
-		for (PhenotypeEntity phenotypeEntity : phenotypeEntities) {
-			result.add(convertToPhenotype(phenotypeEntity, inSummarize));
-		}
-
-		return result;
+                this.conversionSupport = new ConversionSupport();
 	}
         
         @GET
-	//@Produces(MediaType.APPLICATION_JSON)
-        @Path("/toProp")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<PropositionDefinition> getAllToProp(@Context HttpServletRequest inRequest) {
 		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
 		List<PropositionDefinition> result = new ArrayList<>();
@@ -125,6 +114,19 @@ public class PhenotypeResource {
 
 		return result;
 	}
+        
+        @POST
+        @Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
+        @Path("/concept2prop")
+        public List<String> getConceptToProp(@Context HttpServletRequest request, List<String> listConcepts){
+            List<String> listProp = new ArrayList<>();
+            
+            for( String s : listConcepts){
+                listProp.add(this.conversionSupport.toPropositionId(s));
+            }
+            return listProp;
+        }
         
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

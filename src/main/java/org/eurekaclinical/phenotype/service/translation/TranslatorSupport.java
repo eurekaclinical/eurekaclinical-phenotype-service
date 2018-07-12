@@ -32,7 +32,7 @@ import com.google.inject.Inject;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
 import org.eurekaclinical.eureka.client.comm.SourceConfigParams;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntity;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
 import org.eurekaclinical.eureka.client.comm.exception.PhenotypeHandlingException;
 import org.eurekaclinical.phenotype.service.finder.PropositionFindException;
 import org.eurekaclinical.phenotype.service.finder.SystemPropositionFinder;

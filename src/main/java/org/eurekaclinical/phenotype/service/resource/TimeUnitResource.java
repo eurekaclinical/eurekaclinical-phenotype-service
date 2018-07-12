@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.TimeUnit;
+//import org.eurekaclinical.phenotype.service.entity.TimeUnit;
 import org.eurekaclinical.phenotype.service.dao.TimeUnitDao;
 import org.eurekaclinical.phenotype.client.comm.TimeUnit;
 
