@@ -217,7 +217,7 @@ public final class ValueThresholdsTranslator implements
 				PhenotypeField phenotypeField
 						= PropositionTranslatorUtil.createPhenotypeField(elt);
 				relatedPhenotypes.add(phenotypeField);
-                                relatedPhenotypesMembers.add
+//                                relatedPhenotypes.add
 			}
 			threshold.setRelatedPhenotypes(relatedPhenotypes);
 
