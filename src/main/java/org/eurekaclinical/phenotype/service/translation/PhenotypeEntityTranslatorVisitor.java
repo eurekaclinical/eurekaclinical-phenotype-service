@@ -20,6 +20,9 @@
 package org.eurekaclinical.phenotype.service.translation;
 
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import org.eurekaclinical.eureka.client.comm.Category;
 
 import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
 import org.eurekaclinical.phenotype.service.entity.FrequencyEntity;
@@ -29,6 +32,7 @@ import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntityVisitor;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
+import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
 //import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
 //import org.eurekaclinical.phenotype.service.entity.FrequencyEntity;
 //import org.eurekaclinical.phenotype.service.entity.SequenceEntity;
@@ -73,8 +77,15 @@ public final class PhenotypeEntityTranslatorVisitor implements
 
 	@Override
 	public void visit(CategoryEntity entity) {
-		phenotype = this.categorizationTranslator
+                Category category = this.categorizationTranslator
 				.translateFromProposition(entity);
+                List<Phenotype> members = category.getMembers();
+                for(PhenotypeEntity pE : entity.getMembers()){
+                    pE.accept(this);
+                    Phenotype memberPhenotype= this.getPhenotype();
+                    members.add(memberPhenotype);
+                }
+                phenotype = category;
 	}
 
 	@Override

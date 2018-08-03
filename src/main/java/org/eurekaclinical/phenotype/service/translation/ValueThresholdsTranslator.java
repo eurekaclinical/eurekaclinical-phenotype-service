@@ -211,10 +211,13 @@ public final class ValueThresholdsTranslator implements
 
 			List<PhenotypeField> relatedPhenotypes
 					= new ArrayList<>();
+                        List<PhenotypeField> relatedPhenotypesNested
+					= new ArrayList<>();
 			for (ExtendedPhenotype elt : vte.getExtendedPhenotypes()) {
 				PhenotypeField phenotypeField
 						= PropositionTranslatorUtil.createPhenotypeField(elt);
 				relatedPhenotypes.add(phenotypeField);
+                                relatedPhenotypesMembers.add
 			}
 			threshold.setRelatedPhenotypes(relatedPhenotypes);
 
