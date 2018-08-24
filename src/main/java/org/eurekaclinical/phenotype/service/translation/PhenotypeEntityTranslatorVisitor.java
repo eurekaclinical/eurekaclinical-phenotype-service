@@ -77,15 +77,8 @@ public final class PhenotypeEntityTranslatorVisitor implements
 
 	@Override
 	public void visit(CategoryEntity entity) {
-                Category category = this.categorizationTranslator
+                phenotype = this.categorizationTranslator
 				.translateFromProposition(entity);
-                List<Phenotype> members = category.getMembers();
-                for(PhenotypeEntity pE : entity.getMembers()){
-                    pE.accept(this);
-                    Phenotype memberPhenotype= this.getPhenotype();
-                    members.add(memberPhenotype);
-                }
-                phenotype = category;
 	}
 
 	@Override
