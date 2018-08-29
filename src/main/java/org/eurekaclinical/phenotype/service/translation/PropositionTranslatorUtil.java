@@ -24,15 +24,15 @@ import javax.ws.rs.core.Response;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
 import org.eurekaclinical.eureka.client.comm.PhenotypeField;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ExtendedPhenotype;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PropertyConstraint;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PropositionTypeVisitor;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.TimeUnit;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ValueComparator;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
+//import org.eurekaclinical.phenotype.service.entity.ExtendedPhenotype;
+//import org.eurekaclinical.phenotype.service.entity.PropertyConstraint;
+//import org.eurekaclinical.phenotype.service.entity.PropositionTypeVisitor;
+//import org.eurekaclinical.phenotype.service.entity.TimeUnit;
+//import org.eurekaclinical.phenotype.service.entity.ValueComparator;
 import org.eurekaclinical.eureka.client.comm.exception.PhenotypeHandlingException;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ExtendedPhenotype;
+//import org.eurekaclinical.phenotype.service.entity.ExtendedPhenotype;
 import org.eurekaclinical.phenotype.service.dao.TimeUnitDao;
 import org.eurekaclinical.phenotype.service.dao.ValueComparatorDao;
 import org.eurekaclinical.phenotype.service.entity.ExtendedPhenotype;

@@ -50,8 +50,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.eurekaclinical.phenotype.service.dao.PhenotypeEntityDao;
 import java.net.URI;
+import org.eurekaclinical.phenotype.service.conversion.PropositionDefinitionCollector;
+import org.eurekaclinical.phenotype.service.conversion.PropositionDefinitionConverterVisitor;
 import org.eurekaclinical.phenotype.service.entity.AuthorizedUserEntity;
 import org.eurekaclinical.standardapis.exception.HttpStatusException;
+import org.protempa.PropositionDefinition;
 
 /**
  * PropositionCh
@@ -74,17 +77,19 @@ public class PhenotypeResource {
 	private final PhenotypeEntityTranslatorVisitor pETranslatorVisitor;
 	private final PhenotypeTranslatorVisitor phenotypeTranslatorVisitor;
 	private final SummarizingPhenotypeEntityTranslatorVisitor summpETranslatorVisitor;
-
+        private final PropositionDefinitionConverterVisitor converterVisitor;
 	@Inject
 	public PhenotypeResource(PhenotypeEntityDao inDao, AuthorizedUserDao inUserDao,
 			PhenotypeEntityTranslatorVisitor inPETranslatorVisitor,
 			SummarizingPhenotypeEntityTranslatorVisitor inSummpETranslatorVisitor,
-			PhenotypeTranslatorVisitor inPhenotypeTranslatorVisitor) {
+			PhenotypeTranslatorVisitor inPhenotypeTranslatorVisitor,
+                        PropositionDefinitionConverterVisitor inVisitor) {
 		this.phenotypeEntityDao = inDao;
 		this.pETranslatorVisitor = inPETranslatorVisitor;
 		this.summpETranslatorVisitor = inSummpETranslatorVisitor;
 		this.phenotypeTranslatorVisitor = inPhenotypeTranslatorVisitor;
 		this.userDao = inUserDao;
+                this.converterVisitor = inVisitor;
 	}
 
 	@GET
@@ -101,7 +106,26 @@ public class PhenotypeResource {
 
 		return result;
 	}
+        
+        @GET
+	//@Produces(MediaType.APPLICATION_JSON)
+        @Path("/toProp")
+	public List<PropositionDefinition> getAllToProp(@Context HttpServletRequest inRequest) {
+		AuthorizedUserEntity user = this.userDao.getByHttpServletRequest(inRequest);
+		List<PropositionDefinition> result = new ArrayList<>();
+		List<PhenotypeEntity> phenotypeEntities
+				= this.phenotypeEntityDao.getByUserId(user.getId());
+                
+                PropositionDefinitionCollector collector
+				= PropositionDefinitionCollector.getInstance(
+						this.converterVisitor, phenotypeEntities);
+                
+                
+		result = collector.getUserPropDefs();
 
+		return result;
+	}
+        
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{key}")

@@ -19,10 +19,10 @@
  */
 package org.eurekaclinical.phenotype.service.entity;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.CategoryEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SequenceEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SystemProposition;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ValueThresholdGroupEntity;
+//import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
+//import org.eurekaclinical.phenotype.service.entity.SequenceEntity;
+//import org.eurekaclinical.phenotype.service.entity.SystemProposition;
+//import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
 
 public interface PhenotypeEntityVisitor {
 	

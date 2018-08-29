@@ -20,6 +20,9 @@
 package org.eurekaclinical.phenotype.service.translation;
 
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import org.eurekaclinical.eureka.client.comm.Category;
 
 import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
 import org.eurekaclinical.phenotype.service.entity.FrequencyEntity;
@@ -29,12 +32,13 @@ import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntityVisitor;
 
 import org.eurekaclinical.eureka.client.comm.Phenotype;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.CategoryEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.FrequencyEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SequenceEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SystemProposition;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.ValueThresholdGroupEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntityVisitor;
+import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
+//import org.eurekaclinical.phenotype.service.entity.CategoryEntity;
+//import org.eurekaclinical.phenotype.service.entity.FrequencyEntity;
+//import org.eurekaclinical.phenotype.service.entity.SequenceEntity;
+//import org.eurekaclinical.phenotype.service.entity.SystemProposition;
+//import org.eurekaclinical.phenotype.service.entity.ValueThresholdGroupEntity;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntityVisitor;
 
 public final class PhenotypeEntityTranslatorVisitor implements
 		PhenotypeEntityVisitor {
@@ -73,7 +77,7 @@ public final class PhenotypeEntityTranslatorVisitor implements
 
 	@Override
 	public void visit(CategoryEntity entity) {
-		phenotype = this.categorizationTranslator
+                phenotype = this.categorizationTranslator
 				.translateFromProposition(entity);
 	}
 
