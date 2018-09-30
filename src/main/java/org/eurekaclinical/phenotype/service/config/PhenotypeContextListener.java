@@ -62,8 +62,6 @@ public class PhenotypeContextListener extends GuiceServletContextListener {
      */
     @Override
     protected Injector getInjector() {
-        System.out.println("phenotype injector called================================================");
-
         return new InjectorSupport(
             new Module[]{
                 new AppModule(this.etlClientProvider),
