@@ -19,7 +19,7 @@
  */
 package org.eurekaclinical.phenotype.service.dao;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.FrequencyType;
+//import org.eurekaclinical.phenotype.service.entity.FrequencyType;
 import java.util.List;
 import org.eurekaclinical.standardapis.dao.Dao;
 import org.protempa.CompoundLowLevelAbstractionDefinition.ValueDefinitionMatchOperator;

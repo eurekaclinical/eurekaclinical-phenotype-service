@@ -30,8 +30,8 @@ import org.eurekaclinical.eureka.client.comm.SystemPhenotype;
 
 import org.eurekaclinical.phenotype.service.entity.SystemProposition;
 import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.PhenotypeEntity;
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.SystemProposition;
+//import org.eurekaclinical.phenotype.service.entity.PhenotypeEntity;
+//import org.eurekaclinical.phenotype.service.entity.SystemProposition;
 import org.eurekaclinical.phenotype.service.finder.PropositionFindException;
 import org.eurekaclinical.phenotype.service.finder.SystemPropositionFinder;
 

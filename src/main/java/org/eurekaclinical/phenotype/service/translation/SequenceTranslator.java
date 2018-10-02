@@ -256,12 +256,16 @@ public class SequenceTranslator implements
 					.getLhsExtendedPhenotype()));
 			relatedPhenotype.setSequentialPhenotype(relation
 					.getRhsExtendedPhenotype().getPhenotypeEntity().getKey());
+                        relatedPhenotype.setSequentialPhenotypeField(createPhenotypeField(relation
+					.getRhsExtendedPhenotype()));
 		} else if (relation.getRelationOperator().getName().equalsIgnoreCase("after")) {
 			relatedPhenotype
 					.setPhenotypeField(createPhenotypeField(relation
 					.getRhsExtendedPhenotype()));
 			relatedPhenotype.setSequentialPhenotype(relation
 					.getLhsExtendedPhenotype().getPhenotypeEntity().getKey());
+                        relatedPhenotype.setSequentialPhenotypeField(createPhenotypeField(relation
+					.getLhsExtendedPhenotype()));
 		}
 
 		return relatedPhenotype;

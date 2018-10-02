@@ -41,7 +41,7 @@ import org.eurekaclinical.common.config.ServiceServletModule;
  * client and add it to the servlet context.
  */
 public class PhenotypeContextListener extends GuiceServletContextListener {
-    private static final String PACKAGE_NAMES = "org.eurekaclinical.phenotype.service.resource";
+    private static final String PACKAGE_NAMES = "org.eurekaclinical.phenotype.service.resource; org.eurekaclinical.phenotype.client.json";
     private static final String JPA_UNIT = "eurekaclinical-phenotype-service-jpa-unit";
     private final PhenotypeServiceProperties phenotypeServiceProperties;
     private final EtlClientProvider etlClientProvider;

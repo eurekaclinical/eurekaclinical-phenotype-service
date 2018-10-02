@@ -21,7 +21,7 @@ package org.eurekaclinical.phenotype.service.dao;
 
 import org.eurekaclinical.phenotype.service.entity.UserEntity;
 
-//import edu.emory.cci.aiw.cvrg.eureka.common.entity.UserEntity;
+//import org.eurekaclinical.phenotype.service.entity.UserEntity;
 
 /**
  * A data access object interface for working with {@link UserEntity} objects in the

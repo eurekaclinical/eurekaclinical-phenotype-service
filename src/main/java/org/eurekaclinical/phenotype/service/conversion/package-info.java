@@ -17,23 +17,5 @@
  * limitations under the License.
  * #L%
  */
-package org.eurekaclinical.phenotype.service.dao;
 
-//import org.eurekaclinical.phenotype.service.entity.ThresholdsOperator;
-import org.eurekaclinical.standardapis.dao.Dao;
-
-import org.eurekaclinical.phenotype.client.comm.ThresholdsOperator;
-
-/**
- *
- */
-public interface ThresholdsOperatorDao  extends
-		Dao<ThresholdsOperator, Long> {
-	/**
-	 * Gets a value definition match operator based on the name attribute.
-	 * @param inName the name to search for in the database
-	 * @return a {@link ThresholdsOperator} with the given name if
-	 * found, null otherwise
-	 */
-	public ThresholdsOperator getByName(String inName);
-}
+package org.eurekaclinical.phenotype.service.conversion;
