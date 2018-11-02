@@ -120,6 +120,333 @@ A Tomcat restart is required to detect any changes to the configuration file.
 </dependency>
 ```
 
+## REST APIs
+
+### `/api/protected/frequencytypes`
+Read-only, enumerates the allows types of frequency phenotypes.
+
+#### Role-based authorization
+None
+
+#### Requires successful authentication
+Yes
+
+#### FrequencyType object
+Names and describes a frequency type.
+
+Properties:
+* `id`: unique numerical id of the frequency type.
+* `name`: unique name of the frequency type.
+* `description`: unique description of the frequency type.
+
+#### Calls
+Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
+
+##### GET `/api/protected/frequencytypes`
+Returns a list of possible frequency types in ascending order.
+
+##### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/frequencytypes
+
+Returns:
+```
+[
+  { "id":1,
+    "name":"at least",
+    "description":"at least",
+    "rank":1,
+    "default":true},
+  { "id":2,
+    "name":"first",
+    "description":"first",
+    "rank":2,
+    "default":false}
+]
+```
+
+##### GET `/api/protected/frequencytypes/{id}`
+Returns the frequency type with the specified numerical unique id.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/frequencytypes/1
+
+Returns:
+```
+{ "id":1,
+  "name":"at least",
+  "description":"at least",
+  "rank":1,
+  "default":true }
+```
+
+##### GET `/api/protected/frequencytypes/byname/{name}`
+Returns the frequency type with the specified unique name.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/frequencytypes/byname/at%20least
+
+Returns:
+```
+{ "id":1,
+  "name":"at least",
+  "description":"at least",
+  "rank":1,
+  "default":true }
+```
+
+### `/api/protected/relationops`
+Read-only, enumerates the allows types of relation operations.
+
+#### Role-based authorization
+None
+
+#### Requires successful authentication
+Yes
+
+#### RelationOp object
+Names and describes a relation operator.
+
+Properties:
+* `id`: unique numerical id of the relation operator.
+* `name`: unique name of the relation operator.
+* `description`: unique description of the relation operator.
+
+#### Calls
+Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
+
+##### GET `/api/protected/relationops`
+Gets a list of the possible temporal relation operators in rank order.
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/relationops
+
+Returns: 
+```
+[
+  { "id":1,
+    "name":"before",
+    "description":"before",
+    "rank":1,
+    "type":"SEQUENTIAL",
+    "default":true},
+  { "id":2,
+    "name":"after",
+    "description":"after",
+    "rank":2,
+    "type":"SEQUENTIAL",
+    "default":false},
+  { "id":3,
+    "name":"around",
+    "description":"around",
+    "rank":3,
+    "type":"OVERLAPPING",
+    "default":false}
+]
+```
+
+##### GET `/api/protected/relationops/{id}`
+Returns the temporal relation operator with the specified numerical unique id.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/relationops/1
+
+Returns:
+```
+{"id":1,"name":"before","description":"before","rank":1,"type":"SEQUENTIAL","default":true}
+```
+
+##### GET /api/protected/relationops/byname/{name}
+Returns the temporal relation operator with the specified unique name.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/relationops/byname/before
+
+Returns: 
+```
+{"id":1,"name":"before","description":"before","rank":1,"type":"SEQUENTIAL","default":true}
+```
+### `/api/protected/thresholdops`
+Read-only, enumerates the allows types of value threshold operations.
+
+#### Role-based authorization
+None
+
+#### Requires successful authentication
+Yes
+
+#### ThresholdOp object
+
+#### Calls
+Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
+
+##### GET `/api/protected/thresholdops`
+Gets a list of the supported value threshold operators.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/thresholdsops
+
+Returns:
+```
+[{"id":1,"name":"any","description":"any"},{"id":2,"name":"all","description":"all"}]
+```
+
+##### GET `/api/protected/thresholdsops/{id}`
+Returns the value threshold operator with the specified numerical unique id.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/thresholdsops/1
+
+Returns:
+```
+{"id":1,"name":"any","description":"any"}
+```
+
+##### GET `/api/protected/thresholdsops/byname/{name}`
+Returns the value threshold operator with the specified unique name.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/thresholdsops/byname/any
+
+Returns:
+```
+{"id":1,"name":"any","description":"any"}
+```
+
+### `/api/protected/valuecomps`
+Read-only, enumerates the allows types of value comparators.
+
+#### Role-based authorization
+None
+
+#### Requires successful authentication
+Yes
+
+#### ValueComparator object
+Properties:
+* `id`: unique numerical id of the relation operator.
+* `name`: unique name of the relation operator.
+* `description`: unique description of the relation operator.
+
+#### Calls
+Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
+
+##### GET `/api/protected/valuecomps`
+Gets a list of the supported value comparators in rank order.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/valuecomps
+
+Returns:
+```
+[
+  { "id":5,
+    "name":"<",
+    "description":"less than",
+    "threshold":"UPPER_ONLY","rank":1}, 
+  { "id":6,
+    "name":"<=",
+    "description":"less than or equal to",
+    "threshold":"UPPER_ONLY",
+    "rank":2},
+  { "id":1,
+    "name":"=",
+    "description":"equals",
+    "threshold":"BOTH",
+    "rank":3},
+  { "id":2,
+    "name":"not=",
+    "description":"not equals",
+    "threshold":"BOTH",
+    "rank":4},
+  { "id":3,
+    "name":">",
+    "description":"greater than",
+    "threshold":"LOWER_ONLY",
+    "rank":5},
+  { "id":4,
+    "name":">=",
+    "description":"greater than or equal to",
+    "threshold":"LOWER_ONLY",
+    "rank":6}
+]
+```
+
+##### GET `/api/protected/valuecomps/{id}`
+Returns the value comparator operator with the specified numerical unique id.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/valuecomps/1
+
+Returns:
+```
+{"id":1,"name":"=","description":"equals","threshold":"BOTH","rank":3}
+```
+
+##### GET `/api/protected/valuecomps/byname/{name}`
+Returns the value comparator operator with the specified unique name.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/valuecomps/byname/=
+
+Returns:
+```
+{"id":1,"name":"=","description":"equals","threshold":"BOTH","rank":3}
+```
+
+### `/api/protected/timeunits`
+Read-only, enumerates the allowed time units.
+
+#### Role-based authorization
+None
+
+#### Requires successful authentication
+Yes
+
+#### TimeUnit object
+Properties:
+* `id`: unique numerical id of the time unit.
+* `name`: unique name of the time unit.
+* `description`: unique description of the time unit.
+
+#### Calls
+Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
+
+##### GET `/api/protected/timeunits`
+Gets an array of the supported time units in rank order.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/timeunits
+
+Returns:
+```
+[
+  {"id":3,"name":"minute","description":"minutes","rank":1,"default":false},
+  {"id":2,"name":"hour","description":"hours","rank":2,"default":false},
+  {"id":1,"name":"day","description":"days","rank":3,"default":true}
+]
+```
+
+##### GET /api/protected/timeunits/{id}
+Returns the time unit with the specified numerical unique id.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/timeunits/1
+
+Returns:
+```
+{"id":1,"name":"day","description":"days","rank":3,"default":true}
+```
+
+##### GET /api/protected/timeunits/byname/{name}
+Returns the time unit with the specified unique name.
+
+###### Example:
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/timeunits/byname/day
+
+Returns:
+```
+{"id":1,"name":"day","description":"days","rank":3,"default":true}
+```
+
 * [Javadoc for latest development release](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-phenotype-service) [![Javadocs](http://javadoc.io/badge/org.eurekaclinical/eurekaclinical-phenotype-service.svg)](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-phenotype-service)
 
 Feel free to contact us at help@eurekaclinical.org.
