@@ -682,7 +682,9 @@ Returns:
 {"id":1,"name":"day","description":"days","rank":3,"default":true}
 ```
 
-* [Javadoc for latest development release](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-phenotype-service) [![Javadocs](http://javadoc.io/badge/org.eurekaclinical/eurekaclinical-phenotype-service.svg)](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-phenotype-service)
+## Developer documentation
+* [Javadoc for latest development release](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-analytics-service) [![Javadocs](http://javadoc.io/badge/org.eurekaclinical/eurekaclinical-analytics-service.svg)](http://javadoc.io/doc/org.eurekaclinical/eurekaclinical-analytics-service)
 
+## Getting help
 Feel free to contact us at help@eurekaclinical.org.
 
