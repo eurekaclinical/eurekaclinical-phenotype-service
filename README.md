@@ -238,11 +238,11 @@ Additional properties:
 #### Calls
 Uses status codes as specified in the [Eureka! Clinical microservice specification](https://github.com/eurekaclinical/dev-wiki/wiki/Eureka%21-Clinical-microservice-specification).
 
-##### GET `/api/protected/phenotypes[?summarize=yes|no]`
-Returns the concepts accessible by the current user. Optionally, return each concept in a summarized form suitable for listing.
+##### GET `/api/protected/phenotypes`
+Returns the concepts accessible by the current user.
 
 ###### Example:
-URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/phenotypes?summarize=yes
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/phenotypes
 
 Return:
 ```
@@ -294,7 +294,7 @@ Return:
 ]
 ```
 
-##### GET /api/protected/phenotypes/{key}
+##### GET `/api/protected/phenotypes/{key}`
 Returns the concept with the specified key.
 
 ###### Example:
