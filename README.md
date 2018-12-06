@@ -294,11 +294,11 @@ Return:
 ]
 ```
 
-##### GET /api/protected/phenotypes/{key}[?summarize=yes|no]
-Returns the concept with the specified key. Optionally, return each concept in a summarized form suitable for listing.
+##### GET /api/protected/phenotypes/{key}
+Returns the concept with the specified key.
 
 ###### Example:
-URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/phenotypes/USER:testCategorization?summarize=yes
+URL: https://localhost:8443/eurekaclinical-analytics-service/api/protected/phenotypes/USER:testCategorization
 
 Returns:
 ```
