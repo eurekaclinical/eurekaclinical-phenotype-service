@@ -680,18 +680,18 @@
 	<changeSet author="ndeshpa" id="1360440238345-99">
         <insert tableName="USERS">
             <column name="ID" valueSequenceNext="USER_SEQ"/>
-            <column name="USERNAME" value="allofususer"/>
-        </insert>
-        <insert tableName="USERS_ROLES">
-            <column name="USER_ID" valueComputed="(SELECT ID FROM USERS WHERE USERNAME='allofususer')"/>
-            <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLES WHERE NAME='admin')"/>
-        </insert>
-                <insert tableName="USERS">
-            <column name="ID" valueSequenceNext="USER_SEQ"/>
             <column name="USERNAME" value="actuser"/>
         </insert>
         <insert tableName="USERS_ROLES">
             <column name="USER_ID" valueComputed="(SELECT ID FROM USERS WHERE USERNAME='actuser')"/>
+            <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLES WHERE NAME='admin')"/>
+        </insert>
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USER_SEQ"/>
+            <column name="USERNAME" value="allofususer"/>
+        </insert>
+        <insert tableName="USERS_ROLES">
+            <column name="USER_ID" valueComputed="(SELECT ID FROM USERS WHERE USERNAME='allofususer')"/>
             <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLES WHERE NAME='admin')"/>
         </insert>
     </changeSet>                                                                                                   
